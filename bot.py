@@ -10,14 +10,13 @@ client = Client(account_sid, account_key)
   Create an Assistant Resource
 '''
 assistant = None
-unique_assistant_name = 'twilio-bot-repl-assistant'
+unique_assistant_name = 'twilio-bot-assistant'
 try:
     assistant = client.autopilot.assistants.create(
         unique_name=unique_assistant_name)
 except:
     assistant = client.autopilot.assistants(unique_assistant_name).fetch()
 assistant_sid = assistant.sid
-
 
 '''
   Create a Task Resource
@@ -30,8 +29,7 @@ try:
         actions={
             "actions": [{
                 "collect": {
-                    "name":
-                    "user_information",
+                    "name": "user_information",
                     "questions": [{
                         "question": "What is your name?",
                         "name": "user_name",
@@ -59,5 +57,10 @@ assistant_task_id = assistant_task.sid
   Add Sample to above task
 '''
 task_sample = assistant_task.samples.create(language='en-US', tagged_text='register')
- 
+
+
+'''
+Build Model
+'''
+model_build =  assistant.model_builds.create()
 
